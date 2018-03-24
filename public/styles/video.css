@@ -1,0 +1,38 @@
+/**
+ * Add the correct display in IE 9-.
+ */
+video {
+  display: inline-block;
+}
+
+video.responsive-video {
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+}
+
+.mejs-container.mejs-container {
+    margin-bottom: 0;
+}
+
+.mejs-container,
+.mejs-container video {
+    border-radius: 2px;
+}
+
+.card:not(.has-caption) .mejs-controls {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}

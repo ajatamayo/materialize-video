@@ -3,7 +3,7 @@
  * Plugin Name: Materialize Video
  * Description: Display videos as Materialize Cards. Captions will be shown as card contents if specified.
  * Plugin URI:  https://github.com/ajatamayo/materialize-video
- * Version:     1.0
+ * Version:     1.1
  * Author:      AJ Tamayo
  * Author URI:  https://github.com/ajatamayo
  * License:     GPL
@@ -63,13 +63,16 @@ class Materialize_Video {
 
     /**
      *
-     * @since 1.0
+     * @since 1.1
      */
     function wrap_video_in_card( $output, $atts, $video, $post_id, $library ) {
-        $caption = $this->getCaptionFromGUID( $atts['mp4'] );
+        $post = $this->getDetailsFromGUID( $atts['mp4'] );
+
+        $caption = $post->post_excerpt;
+        $description = $post->post_content;
 
         $classes = array( 'card' );
-        if ( !empty( $caption ) ) {
+        if ( !empty( $caption ) || !empty( $description ) ) {
             $classes[] = 'has-caption';
         }
         $classes = implode( ' ', $classes );
@@ -80,9 +83,14 @@ class Materialize_Video {
 
         <div class="<?php echo $classes; ?>">
             <?php echo $output; ?>
-            <?php if ( !empty( $caption ) ) : ?>
+            <?php if ( !empty( $caption ) || !empty( $description ) ) : ?>
                 <div class="card-content">
-                    <p><?php echo $caption; ?></p>
+                    <?php if ( !empty( $caption ) ) : ?>
+                        <p><?php echo $caption; ?></p>
+                    <?php endif; ?>
+                    <?php if ( !empty( $description ) ) : ?>
+                        <p class="description"><?php echo $description; ?></p>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -102,11 +110,12 @@ class Materialize_Video {
 
     /**
      *
-     * @since 1.0
+     * @since 1.1
      */
-    function getCaptionFromGUID( $guid ) {
+    function getDetailsFromGUID( $guid ) {
         global $wpdb;
-        return $wpdb->get_var( $wpdb->prepare( "SELECT post_excerpt FROM $wpdb->posts WHERE guid=%s", $guid ) );
+        $post = $wpdb->get_row( $wpdb->prepare( "SELECT post_content, post_excerpt FROM $wpdb->posts WHERE guid=%s", $guid ), OBJECT );
+        return $post;
     }
 }
 

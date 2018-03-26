@@ -36,7 +36,3 @@ html [type="button"],
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
-
-.card.has-video {
-    max-width: 525px;
-}

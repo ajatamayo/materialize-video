@@ -71,7 +71,7 @@ class Materialize_Video {
         $caption = $post->post_excerpt;
         $description = $post->post_content;
 
-        $classes = array( 'card' );
+        $classes = array( 'card has-video' );
         if ( !empty( $caption ) || !empty( $description ) ) {
             $classes[] = 'has-caption';
         }
